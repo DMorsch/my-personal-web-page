@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id         :bigint           not null, primary key
+#  message    :string           not null
+#  name       :string           default("Anonymous")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  message: MyString
+
+two:
+  name: MyString
+  message: MyString
