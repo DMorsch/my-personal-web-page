@@ -1,6 +1,5 @@
-import React from "react"
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import GitHubIcon from '@mui/icons-material/GitHub'
+import githubLogo from '../../assets/github.svg'
+import linkedinLogo from '../../assets/linkedin.svg'
 
 const PersonalContacts = () => {
   return (
@@ -13,25 +12,13 @@ const PersonalContacts = () => {
       <ul>
         <li>
           <a href="https://github.com/DMorsch" target="_blank">
-            <svg
-              className="button-icon"
-              role="presentation"
-              aria-hidden="true"
-            >
-              <GitHubIcon/>
-            </svg>
+            <img className="button-icon github-icon" src={githubLogo} alt="" />
             GitHub
           </a>
         </li>
         <li>
           <a href="https://www.linkedin.com/in/daniel-morsch/" target="_blank">
-            <svg
-              className="button-icon"
-              role="presentation"
-              aria-hidden="true"
-            >
-            <LinkedInIcon/>
-            </svg>
+            <img className="button-icon" src={linkedinLogo} alt="" />
             Linkedin
           </a>
         </li>

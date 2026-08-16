@@ -16,6 +16,11 @@ const Header = () => {
               About
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/comments" className={({ isActive }) => isActive ? 'active' : ''}>
+              Comments
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
