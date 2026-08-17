@@ -86,9 +86,23 @@
     border-radius: 8px;
     padding: 16px;
 
+    .comment-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 4px;
+    }
+
     h2 {
       font-size: 16px;
-      margin: 0 0 4px;
+      margin: 0;
+    }
+
+    .comment-date {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--text);
     }
 
     p {

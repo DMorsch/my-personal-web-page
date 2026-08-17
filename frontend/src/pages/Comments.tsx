@@ -1,25 +1,56 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import './Comments.css'
 
-interface Comment {
-  name: string
-  message: string
+import { useGetComments, usePostComment } from '../../api/hooks/comentarios.ts'
+import type { Comment } from '../interface/comments.ts'
+
+const formatDate = (isoDate: string) => {
+  const [year, month, day] = isoDate.slice(0, 10).split('-')
+  return `${day}/${month}/${year}`
 }
 
 const Comments = () => {
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [comments, setComments] = useState<Comment[]>([])
+  const { data: fetchedComments, isLoading, isError } = useGetComments()
+  const { mutate: postComment, isPending: isPosting, isError: isPostError } = usePostComment()
+  const seeded = useRef(false)
+
+  useEffect(() => {
+    if (fetchedComments && !seeded.current) {
+      seeded.current = true
+      setComments(fetchedComments)
+    }
+  }, [fetchedComments])
+
+  if (isLoading) {
+    return <p>Loading comments...</p>
+  }
+
+  if (isError) {
+    return <p>Something went wrong loading comments. Please try again later.</p>
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!name.trim() || !message.trim()) return
+    const trimmedName = name.trim()
+    const trimmedMessage = message.trim()
 
-    setComments([{ name: name.trim(), message: message.trim() }, ...comments])
-    setName('')
-    setMessage('')
+    if (!trimmedName || !trimmedMessage) return
+
+    postComment(
+      { name: trimmedName, message: trimmedMessage },
+      {
+        onSuccess: (createdComment) => {
+          setComments([createdComment, ...comments])
+          setName('')
+          setMessage('')
+        },
+      },
+    )
   }
 
   return (
@@ -52,7 +83,11 @@ const Comments = () => {
           />
         </div>
 
-        <button type="submit">Post comment</button>
+        {isPostError && <p className="error-state">Something went wrong posting your comment. Please try again.</p>}
+
+        <button type="submit" disabled={isPosting}>
+          {isPosting ? 'Posting...' : 'Post comment'}
+        </button>
       </form>
 
       <ul className="comment-list">
@@ -61,7 +96,12 @@ const Comments = () => {
         )}
         {comments.map((comment, index) => (
           <li key={index} className="comment">
-            <h2>{comment.name}</h2>
+            <div className="comment-header">
+              <h2>{comment.name}</h2>
+              <time className="comment-date" dateTime={comment.created_at}>
+                {formatDate(comment.created_at)}
+              </time>
+            </div>
             <p>{comment.message}</p>
           </li>
         ))}
