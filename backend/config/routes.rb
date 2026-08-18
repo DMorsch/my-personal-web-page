@@ -11,5 +11,16 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :comments, only: %i[index create]
+
+  # Namespaced under /api so API paths never collide with frontend page
+  # routes of the same name (e.g. the React app's own /comments page).
+  scope :api do
+    resources :comments, only: %i[index create]
+  end
+
+  # Everything else is the React SPA. Must stay last: routes above are
+  # matched first, and any request for a file that actually exists under
+  # public/ (JS, CSS, images) never reaches the router at all.
+  root "static#index"
+  get "*path", to: "static#index", constraints: ->(req) { !req.path.start_with?("/api") }
 end

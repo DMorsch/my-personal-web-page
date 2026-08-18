@@ -1,0 +1,2 @@
+# Local Docker Compose environment (contains RAILS_MASTER_KEY / DB password).
+/.env

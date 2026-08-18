@@ -2,6 +2,7 @@ import reactLogo from '../../assets/react.svg'
 import typescriptLogo from '../../assets/typescript.svg'
 import rubyLogo from '../../assets/ruby.svg'
 import postgresqlLogo from '../../assets/postgresql.svg'
+import dockerLogo from '../../assets/docker.svg'
 
 const Technologies = () => {
   return (
@@ -34,6 +35,12 @@ const Technologies = () => {
           <a>
             <img className="button-icon" src={postgresqlLogo} alt="" />
             PostgreSQL
+          </a>
+        </li>
+        <li>
+          <a>
+            <img className="button-icon" src={dockerLogo} alt="" />
+            Docker
           </a>
         </li>
       </ul>
